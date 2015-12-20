@@ -52,7 +52,7 @@ Funkcje zawierające logikę biznsesową po wysłaniu do repozytoriów Amazona, 
             return (bucket, file_name, response['ContentType'])
 
     log z działania funkcji:
-    ![Imgur](http://i.imgur.com/KHsnDir.png)
+    ![Imgur](http://imgur.com/w6iQ9ih)
       
   
 2. fdsgfd
