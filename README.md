@@ -9,7 +9,9 @@ Usługa koncentruje się na przygotowaniu/zapewnieniu środowiska do uruchomieni
 * dostęp do Internetu
 * dostęp do innych usług Amazon (popularnie: S3, DynamoDB, Redshift, itd)
 
-Dzięki czemu użytkownik takiej usługi nie ma potrzeby dbać o posiadanie serwera, na którym działałby jego kod, dbać o skalowalność swojej aplikacji. Rozwiązanie dobrze się skaluje (ponieważ amazon dba o uruchomienie *funkcji* w momencie gdy jest to wymagane, czas działania i responsywność jest taka sama, tak samo przy obciążeniu 10 użytkowników/s jak 10mln użytkowników/s. Jest to zdaniem autora najwartościowsza cecha usługi amazon lambda).
+Dzięki czemu użytkownik amazon lambda nie ma potrzeby dbać o posiadanie serwera, na którym działałby jego kod, ani dbać o skalowalność swojej aplikacji ani dbać o inne elementy wymagane do działania kodu, może skupić się na przygotowaniu samej *funkcji* uzytkowej.
+
+Rozwiązanie dobrze się skaluje (ponieważ amazon dba o uruchomienie *funkcji* w momencie gdy jest to wymagane, czas działania i responsywność jest taka sama, tak samo przy obciążeniu 10 użytkowników/s jak 10mln użytkowników/s. Jest to zdaniem autora najwartościowsza cecha usługi amazon lambda).
 
 #### Dostępne języki programowania *funkcji*
 Obsługiwane języki to:
@@ -25,10 +27,12 @@ Funkcje zawierające logikę biznsesową po wysłaniu do repozytoriów Amazona, 
     * **S3** - dodanie/usunięcie pliku do bucket'a
     * **DynamoDB** - działania na bazie
 * dziania użytkownika:  
-* * trigger polegający na wykonaniu zapytania HTTP pod specjalny endpoint
+    * trigger polegający na wykonaniu zapytania HTTP pod specjalny endpoint
+
+Jak można zauważyć Amazon Lambda realizuje paradygmat [**event-driven**](https://en.wikipedia.org/wiki/Event-driven_programming).
 
 
-#### Przykłady
+#### Przykłady  
 
 1. wylogowanie nazwy i typu pliku dodanego do koszyka S3:  
         
@@ -55,4 +59,4 @@ Funkcje zawierające logikę biznsesową po wysłaniu do repozytoriów Amazona, 
     ![Imgur](http://i.imgur.com/w6iQ9ih.png)
       
   
-2. fdsgfd
+2. zapisanie 
