@@ -22,8 +22,8 @@ Obsługiwane języki to:
 Funkcje zawierające logikę biznsesową po wysłaniu do repozytoriów Amazona, oczekują ich wywołanie/uruchomienie, dostępne triggery wywołania *funkcji* to:
 
 * działania usług amazon, są to triggery, które możemy "wyklikać" w konsoli amazon:
-* * **S3** - dodanie/usunięcie pliku do bucket'a
-* * **DynamoDB** - działania na bazie
+    * **S3** - dodanie/usunięcie pliku do bucket'a
+    * **DynamoDB** - działania na bazie
 * dziania użytkownika:  
 * * trigger polegający na wykonaniu zapytania HTTP pod specjalny endpoint
 
