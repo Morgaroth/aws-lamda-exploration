@@ -50,5 +50,9 @@ Funkcje zawierające logikę biznsesową po wysłaniu do repozytoriów Amazona, 
             print("Watching bucket %s: new file %s has content type %s." % (bucket, file_name, response['ContentType']))
             # return important values from function for future use
             return (bucket, file_name, response['ContentType'])
-            
+
+    log z działania funkcji:
+    ![Imgur](http://i.imgur.com/KHsnDir.png)
+      
+  
 2. fdsgfd
