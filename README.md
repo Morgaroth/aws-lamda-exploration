@@ -1,17 +1,21 @@
 # aws-lamda-exploration
 ## Co to jest ?
-AWS lambda to usługa amazona polegająca, mniej w wiecej, na możliwości uruchamiania kodu (funkcji) w zdalnym środowisku.
+AWS lambda to usługa Amazona polegająca, mniej wiecej, na możliwości uruchamiania kodu (funkcji) w zdalnym środowisku.
   
 ### Wartość usługi
-Usługa koncentruje się na przygotowaniu/zapewnieniu środowiska do uruchomienia kodu, takich jak:
+Usługa koncentruje się na przygotowaniu/zapewnieniu środowiska do uruchomienia kodu, takiego jak:
 
 * moc obliczeniowa (CPU & RAM)
 * dostęp do Internetu
 * dostęp do innych usług Amazon (popularnie: S3, DynamoDB, Redshift, itd)
 
-Dzięki czemu użytkownik amazon lambda nie ma potrzeby dbać o posiadanie serwera, na którym działałby jego kod, ani dbać o skalowalność swojej aplikacji ani dbać o inne elementy wymagane do działania kodu, może skupić się na przygotowaniu samej *funkcji* uzytkowej.
+Dzięki temu użytkownik Amazon lambda nie ma potrzeby dbać o posiadanie serwera, na którym działałby jego kod,
+ani dbać o skalowalność swojej aplikacji ani dbać o inne elementy wymagane do działania kodu, może skupić się na 
+przygotowaniu samej *funkcji* uzytkowej.
 
-Rozwiązanie dobrze się skaluje (ponieważ amazon dba o uruchomienie *funkcji* w momencie gdy jest to wymagane, czas działania i responsywność jest taka sama, tak samo przy obciążeniu 10 użytkowników/s jak 10mln użytkowników/s. Jest to zdaniem autora najwartościowsza cecha usługi amazon lambda).
+Rozwiązanie dobrze się skaluje (ponieważ Amazon dba o uruchomienie *funkcji* w momencie gdy jest to wymagane, czas 
+działania i responsywność jest taka sama, tak samo przy obciążeniu 10 użytkowników/s jak 10mln użytkowników/s. Jest 
+to zdaniem autora najbardziej wartościowa cecha usługi Amazon lambda).
 
 ### Plan kosztów
 
@@ -35,15 +39,16 @@ Obsługiwane języki to:
 * javascript  
 
 ### Uruchomienie *funkcji*
-Funkcje zawierające logikę biznsesową po wysłaniu do repozytoriów Amazona, oczekują ich wywołanie/uruchomienie, dostępne triggery wywołania *funkcji* to:
+Funkcje zawierające logikę biznesową, po wysłaniu do repozytoriów Amazona, oczekują na wywołanie/uruchomienie, 
+dostępne triggery wywołania *funkcji* to:
 
-* działania usług amazon, są to triggery, które możemy "wyklikać" w konsoli amazon:
+* działania usług Amazon, są to triggery, które możemy "wyklikać" w konsoli Amazon:
     * **S3** - dodanie/usunięcie pliku do bucket'a
     * **DynamoDB** - działania na bazie
-* dziania użytkownika:  
+* działania użytkownika:  
     * trigger polegający na wykonaniu zapytania HTTP pod specjalny endpoint
 
-Jak można zauważyć Amazon Lambda realizuje paradygmat [**event-driven**](https://en.wikipedia.org/wiki/Event-driven_programming).
+Jak można zauważyć, Amazon Lambda realizuje paradygmat [**event-driven**](https://en.wikipedia.org/wiki/Event-driven_programming).
 
 ## Konsola AWS Lambda
 Projektanci AWS przygotowali konsolę, gdzie można ręcznie tworzyć, edytować i testować *funkcje*
@@ -53,7 +58,8 @@ Po włączeniu **lambda dashboard** widać listę stworzonych funkcji
 ![Imgur](http://i.imgur.com/jMghNwf.png)
 ### Tworzenie i zarządzanie funkcjami
 #### Tworzenie funkcji:
-na pierwszym panelu możemy wybrać jakąś z przykładowych funkcji, ale polecam pominięcie tego kroku jako, że mamy przykłady funkcji w tym dokumencie
+na pierwszym panelu możemy wybrać jakąś z przykładowych funkcji, ale autor poleca pominięcie tego kroku jako, że można
+użyć funkcji z tego dokumentu
 
 ![Imgur](http://i.imgur.com/QUtl7D0.png)
     
@@ -67,10 +73,10 @@ klikamy **Skip**
  * opis
  * jezyk programowania (runtime)
  * kod funkcji
- * rolę z którą funkcja będzie wykonana: ponieważ w amazonie cała autoryzacja przebiega z użyciem ról, które pozwalają
+ * rolę z którą funkcja będzie wykonana: ponieważ w Amazonie cała autoryzacja przebiega z użyciem ról, które pozwalają
  na działania, np dostęp do usług (EC2, S3, DynamoDb, etc), lub szczegółowe zezwolenia (no zezwolenie
  na dodawanie obiektów do koszyka **test** w S3, ale bez innych praw), jesli nie ma potrzeby dodatkowych dostępów
- wystarczy użyć domyslnej roli **lambda_basic_execution** (jeśli jej nie mamy stworzonej w naszym koncie, wybranie jej 
+ wystarczy użyć domyślnej roli **lambda_basic_execution** (jeśli jej nie mamy stworzonej w naszym koncie, wybranie jej 
  z rozwijanej listy przekieruje na stronę tworzenia roli) ([więcej tutaj](http://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html) i [tutaj](http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html))
  * uzupełnienie max RAM dla funkcji
  * uzupełnienie max czasu działania dla funkcji
@@ -91,7 +97,7 @@ W oknie podsumowania nie ma wiele ciekawego, klikamy **Create function**
 ### Zarządzanie funkcją
 Tutaj przydatne zakładki to:
 
-* Event Sources - tam ustawiamy wydarzenie po którym funkcja zostanie włączona, np nowy obiekt w koszyku S3
+* Event Sources - tam ustawiamy wydarzenie, po którym funkcja zostanie włączona, np nowy obiekt w koszyku S3
 * Monitoring - tam widać monitoring funkcji + łatwy skok do logów z uruchomienia funkcji 
 
 ![Imgur](http://i.imgur.com/L8QMDkY.png)
@@ -100,14 +106,14 @@ Tutaj przydatne zakładki to:
 
 Dla przykładu ustaimy event na wykonanie testowej funkcji po dodaniu pliku do koszyka S3 
 
-1. Idzimy do zakładki Event Sources
+1. Idzeimy do zakładki Event Sources
 2. klikamy Add Event Source
 3. wybieramy Event source type: S3
-4. wybieramy bucket, któ¶ego będzie dotyczyło
+4. wybieramy bucket, którego będzie dotyczyło
 5. wybieramy event type Object Created (all)
 6. ewentualnie możemy ustawić 
     1. prefix (przydatne do zawężenia akcji do folderów w koszyku S3)
-    2. postfix (przydatne do zawężenia do rozszerzeń plików np ".jpg")
+    2. postfix (przydatne do zawężenia akcji do rozszerzeń plików np ".jpg")
 7. Klikamy submit
 
 W ten sposób dodaliśmy wydarzenie, po którym funkcja zostanie uruchomiona, a szczegóły o tym wydarzeniu
@@ -119,7 +125,7 @@ Zdaniem autora bardzo przydatna funkcja
 
 ![Imgur](http://i.imgur.com/ns1Iizt.png)
 
-Testowanie polega to na zmockowaniu danych o wydarzeniu (jako JSON), taki testowy event można zapisać i uruchamiać wielokrotnie.
+Testowanie polega na zmockowaniu danych o wydarzeniu (jako JSON), taki testowy event można zapisać i uruchamiać wielokrotnie.
 Kliknięcie **Test** w lewym górnym rogu panelu uruchamia funkcję z danymi testowymi. Jesli wcześniej nie został zapisany żaden
 mock z danymi wyświetli się okno do wprowadzenia dancyh (jak na obrazku poniżej). Dane te można w każdej chwili zmienić
 z użyciem menu **Actions/Configure test event** w lewym górnym rogu.
@@ -160,7 +166,7 @@ Znajdziemy również link **View logs in CloudWatch** gdzie można zobaczyć log
     ![Imgur](http://i.imgur.com/w6iQ9ih.png)
       
   
-2. zapisanie danych do Amazon DynamoDB, cel: zobaczyć jak można wiązać dane z różnych usług amazona w przejrzysty sposób
+2. zapisanie danych do Amazon DynamoDB, cel: zobaczyć jak można wiązać dane z różnych usług Amazona w przejrzysty sposób
 
         s3 = boto3.client('s3')
         dynamo = boto3.client('dynamodb')
@@ -256,12 +262,11 @@ Znajdziemy również link **View logs in CloudWatch** gdzie można zobaczyć log
     
     Dane zwrócone z funkcji lambda stają się danymi zwracanymi jako body zapytania http.
     
-    
-    
+
 ## Podsumowanie
 
-Usługa Amazon Lambda wydaje się bardzo ciekawą usługą amazona służącą do reagowania na najróżniejsze wydarzenia. W odczuciu 
-autora możę być całkiem dobrym narzędziem do bardzo łatweg łączenia działania usług amazona odległych od siebie (np S3 i DynamoDB).
+Usługa Amazon Lambda wydaje się bardzo ciekawą usługą Amazona służącą do reagowania na najróżniejsze wydarzenia. W odczuciu 
+autora możę być całkiem dobrym narzędziem do bardzo łatweg łączenia działania usług Amazona odległych od siebie (np S3 i DynamoDB).
 
 Może być również użyte do budowy prostych mikroserwisów, jednakże ze względu na ograniczone mozliwości współdzielenia kodu
 nie będzie najwygodniejszym sposobem rozwijania zaawansowanej logiki aplikacji.
