@@ -33,25 +33,17 @@ Jak można zauważyć Amazon Lambda realizuje paradygmat [**event-driven**](http
 
 ## Konsola AWS Lambda
 Projektanci AWS przygotowali konsolę, gdzie można ręcznie tworzyć, edytować i testować *funkcje*
+### Dashboard
+Po włączeniu **lambda dashboard** widać listę stworzonych funkcji
 
-Opis:
-
-Dashboard
-
-    ![Imgur](http://i.imgur.com/jMghNwf.png)
-    Po włączeniu **lambda dashboard** widać listę stworzonych funkcji
-
-
+![Imgur](http://i.imgur.com/jMghNwf.png)
 ### Tworzenie i zarządzanie funkcjami
-
 #### Tworzenie funkcji:
-
 na pierwszym panelu możemy wybrać jakąś z przykładowych funkcji, ale polecam pominięcie tego kroku jako, że mamy przykłady funkcji w tym dokumencie
 
 ![Imgur](http://i.imgur.com/QUtl7D0.png)
     
 klikamy **Skip**
-    
 
 
 
