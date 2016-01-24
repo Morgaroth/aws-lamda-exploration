@@ -1,0 +1,38 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.0",
+      "eventTime": "2016-01-23T21:32:40.292Z",
+      "requestParameters": {
+        "sourceIPAddress": "89.68.67.206"
+      },
+      "s3": {
+        "configurationId": "7c1f50a9-c448-445c-82c4-080a7c1b7bea",
+        "object": {
+          "eTag": "cdb02ddc76aac3db309fc66fe0ffd14f",
+          "sequencer": "0056A3F178416741AE",
+          "key": "dyhamodb-zad1/README.txt",
+          "size": 195
+        },
+        "bucket": {
+          "arn": "arn:aws:s3:::morgaroth-lambda-test",
+          "name": "morgaroth-lambda-test",
+          "ownerIdentity": {
+            "principalId": "A2M93LG5S63H2B"
+          }
+        },
+        "s3SchemaVersion": "1.0"
+      },
+      "responseElements": {
+        "x-amz-id-2": "DIaqiIgL2GHOMgYzxJIaD0w33GLvAZtO3r5jQAA09VHnD1T79hgHsijkKXb6TBxl",
+        "x-amz-request-id": "E804A5C9EB8002F5"
+      },
+      "awsRegion": "eu-west-1",
+      "eventName": "ObjectCreated:Put",
+      "userIdentity": {
+        "principalId": "A2M93LG5S63H2B"
+      },
+      "eventSource": "aws:s3"
+    }
+  ]
+}
