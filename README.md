@@ -45,7 +45,34 @@ na pierwszym panelu możemy wybrać jakąś z przykładowych funkcji, ale poleca
     
 klikamy **Skip**
 
+#### Tworzenie funkcji
+ 
+ Trzeba podać
+  
+ * nazwę dla funkcji (dowolną do identyfikacji)
+ * opis
+ * jezyk programowania
+ * kod funkcji
+ * rolę z którą funkcja będzie wykonana: ponieważ w amazonie cała autoryzacja przebiega z użyciem ról, które pozwalają
+ na działania, np dostęp do usług (EC2, S3, DynamoDb, etc), lub szczegółowe zezwolenia (no zezwolenie
+ na dodawanie obiektów do koszyka **test** w S3, ale bez innych praw), jesli nie ma potrzeby dodatkowych dostępów
+ wystarczy użyć domyslnej roli **lambda_basic_execution** (jeśli jej nie mamy stworzonej w naszym koncie, wybranie jej 
+ z rozwijanej listy przekieruje na stronę tworzenia roli) ([więcej tutaj](http://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html) i [tutaj](http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html))
+ * uzupełnienie max RAM dla funkcji
+ * uzupełnienie max czasu działania dla funkcji
 
+![Imgur](http://i.imgur.com/SCUDYZC.png)
+
+![Imgur](http://i.imgur.com/dd5V09s.png)
+
+
+klikamy **Next**
+
+#### Podsumowanie
+
+![Imgur](http://i.imgur.com/UF9NCsu.png)
+
+W oknie podsumowania nie ma wiele ciekawego, klikamy **Create function**
 
 
 #### Przykłady  
