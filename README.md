@@ -266,7 +266,7 @@ Znajdziemy również link **View logs in CloudWatch** gdzie można zobaczyć log
 ## Podsumowanie
 
 Usługa Amazon Lambda wydaje się bardzo ciekawą usługą Amazona służącą do reagowania na najróżniejsze wydarzenia. W odczuciu 
-autora możę być całkiem dobrym narzędziem do bardzo łatweg łączenia działania usług Amazona odległych od siebie (np S3 i DynamoDB).
+autora możę być całkiem dobrym narzędziem do bardzo łatwego łączenia działania usług Amazona odległych od siebie (np S3 i DynamoDB).
 
 Może być również użyte do budowy prostych mikroserwisów, jednakże ze względu na ograniczone mozliwości współdzielenia kodu
 nie będzie najwygodniejszym sposobem rozwijania zaawansowanej logiki aplikacji.
