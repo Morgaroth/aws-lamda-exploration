@@ -13,6 +13,20 @@ Dzięki czemu użytkownik amazon lambda nie ma potrzeby dbać o posiadanie serwe
 
 Rozwiązanie dobrze się skaluje (ponieważ amazon dba o uruchomienie *funkcji* w momencie gdy jest to wymagane, czas działania i responsywność jest taka sama, tak samo przy obciążeniu 10 użytkowników/s jak 10mln użytkowników/s. Jest to zdaniem autora najwartościowsza cecha usługi amazon lambda).
 
+### Plan kosztów
+
+Amazon postanowił pobierać opłaty za:
+
+* fakt uruchomienia funkcji (pierwsze 1mln free, kolejne $0.20 za milion) 
+* czaso-ram
+    * czas wykonania funkcji
+    * ilość RAM użytego do wykonania funkcji
+    * ceny $0.00001667 za GB*s (gigabajtosekundę)
+    
+Usługa dostępna w ramach Free Tier.
+
+Więcej o cenniku [tutaj](https://aws.amazon.com/lambda/pricing/)
+
 ### Dostępne języki programowania *funkcji*
 Obsługiwane języki to:
 
@@ -51,7 +65,7 @@ klikamy **Skip**
   
  * nazwę dla funkcji (dowolną do identyfikacji)
  * opis
- * jezyk programowania
+ * jezyk programowania (runtime)
  * kod funkcji
  * rolę z którą funkcja będzie wykonana: ponieważ w amazonie cała autoryzacja przebiega z użyciem ról, które pozwalają
  na działania, np dostęp do usług (EC2, S3, DynamoDb, etc), lub szczegółowe zezwolenia (no zezwolenie
@@ -74,6 +88,49 @@ klikamy **Next**
 
 W oknie podsumowania nie ma wiele ciekawego, klikamy **Create function**
 
+### Zarządzanie funkcją
+Tutaj przydatne zakładki to:
+
+* Event Sources - tam ustawiamy wydarzenie po którym funkcja zostanie włączona, np nowy obiekt w koszyku S3
+* Monitoring - tam widać monitoring funkcji + łatwy skok do logów z uruchomienia funkcji 
+
+![Imgur](http://i.imgur.com/L8QMDkY.png)
+
+#### Dodanie event source
+
+Dla przykładu ustaimy event na wykonanie testowej funkcji po dodaniu pliku do koszyka S3 
+
+1. Idzimy do zakładki Event Sources
+2. klikamy Add Event Source
+3. wybieramy Event source type: S3
+4. wybieramy bucket, któ¶ego będzie dotyczyło
+5. wybieramy event type Object Created (all)
+6. ewentualnie możemy ustawić 
+    1. prefix (przydatne do zawężenia akcji do folderów w koszyku S3)
+    2. postfix (przydatne do zawężenia do rozszerzeń plików np ".jpg")
+7. Klikamy submit
+
+W ten sposób dodaliśmy wydarzenie, po którym funkcja zostanie uruchomiona, a szczegóły o tym wydarzeniu
+zostaną przekazane do funkcji jako pierwszy argument (dane te są w postaci ~JSON).
+
+### Testowanie funkcji
+
+Zdaniem autora bardzo przydatna funkcja
+
+![Imgur](http://i.imgur.com/ns1Iizt.png)
+
+Testowanie polega to na zmockowaniu danych o wydarzeniu (jako JSON), taki testowy event można zapisać i uruchamiać wielokrotnie.
+Kliknięcie **Test** w lewym górnym rogu panelu uruchamia funkcję z danymi testowymi. Jesli wcześniej nie został zapisany żaden
+mock z danymi wyświetli się okno do wprowadzenia dancyh (jak na obrazku poniżej). Dane te można w każdej chwili zmienić
+z użyciem menu **Actions/Configure test event** w lewym górnym rogu.
+
+Wynik działania testu funkcji pojawia się na dole ekranu.
+
+
+### Monitoring
+
+W zakładce monitoring znajdziemy różne statystyki odnośnie wykonania funkcji.
+Znajdziemy również link **View logs in CloudWatch** gdzie można zobaczyć logi z działania funkcji
 
 #### Przykłady  
 
@@ -141,12 +198,70 @@ W oknie podsumowania nie ma wiele ciekawego, klikamy **Create function**
 
     wynik z działania funkcj, dokument w bazie DynamoDB:
     
-    ![Imgur](http://i.imgur.com/UE9aF8l.png) 
+    ![Imgur](http://i.imgur.com/UE9aF8l.png)
+
+3. Micro Service
+        
+        dynamo = boto3.client('dynamodb')
+        table_name = 'MicroServiceDB'
+        
+        def ensure_table_exists():
+            try:
+                dynamo.describe_table(TableName=table_name)
+                return boto3.resource('dynamodb').Table(table_name)
+            except ClientError as e:
+                if e.message.startswith(
+                        'An error occurred (ResourceNotFoundException) when calling the DescribeTable operation: Requested resource not found: Table'):
+                    print "Creating table %s in DynamoDB" % table_name
+                    dynamo.create_table(
+                            AttributeDefinitions=[{'AttributeName': 'id', 'AttributeType': 'S',}, ],
+                            TableName=table_name,
+                            KeySchema=[{'AttributeName': 'id', 'KeyType': 'HASH',}],
+                            ProvisionedThroughput={'ReadCapacityUnits': 123, 'WriteCapacityUnits': 123,},
+                    )
+                    return boto3.resource('dynamodb').Table(table_name)
+                else:
+                    raise
+         
+        def insert_item(data):
+            table = ensure_table_exists()
+            table.put_item(Item={
+                'id': str(uuid4()),
+                'data': data
+            })
+            return 'OK'
+        
+        def list_items(data):
+            table = ensure_table_exists()
+            result = table.scan()['Items']
+            return result
+        
+        def lambda_handler(event, context):
+            print "Event: %s" % json.dumps(event)
+            try:
+                operation = globals()[event['method']]
+                result = operation(event['params'])
+                return {'jsonrpc': '2.0', 'result': result, 'id': event.get('id', '-1')}
+            except KeyError:
+                return {'jsonrpc': '2.0', 'error': 'method %s not found' % event['method'], 'id': event.get('id', '-1')}
 
 
-### setup environment
+    Do nowej funkcji należy dodać endpoint http w zakładce API endpoints, większość opcji pozostawiamy domyślne, 
+    metodę zmieniamy na POST, autoryzacja we własnym zakresie (można użyć api-key).
+    Pełny adres do zapytań jest wyświetlany w zakładce API endpoints.
+    
+    Tak przygotowana funkcja jest możliwa do uruchomienia w ramach zapytania HTTP, co umożliwia zbudowanie swoistej aplikacji
+    backendowej uzywając AWS Lambda, w powyższym przykładzie zrealizowano prosty mikroserwis udostępniający api jako JSON-RPC,
+    dostępne są dwie metody, **insert_item** i **list_items**. Jako persystencja została użyta baza DynamoDB.
+    
+    Dane zwrócone z funkcji lambda stają się danymi zwracanymi jako body zapytania http.
+    
+    
+    
+## Podsumowanie
 
-create user as:
-http://docs.aws.amazon.com/lambda/latest/dg/setting-up.html
+Usługa Amazon Lambda wydaje się bardzo ciekawą usługą amazona służącą do reagowania na najróżniejsze wydarzenia. W odczuciu 
+autora możę być całkiem dobrym narzędziem do bardzo łatweg łączenia działania usług amazona odległych od siebie (np S3 i DynamoDB).
 
-http://docs.aws.amazon.com/lambda/latest/dg/with-dynamodb-create-function.html
+Może być również użyte do budowy prostych mikroserwisów, jednakże ze względu na ograniczone mozliwości współdzielenia kodu
+nie będzie najwygodniejszym sposobem rozwijania zaawansowanej logiki aplikacji.
