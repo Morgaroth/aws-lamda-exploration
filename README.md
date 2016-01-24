@@ -132,7 +132,7 @@ Wynik działania testu funkcji pojawia się na dole ekranu.
 W zakładce monitoring znajdziemy różne statystyki odnośnie wykonania funkcji.
 Znajdziemy również link **View logs in CloudWatch** gdzie można zobaczyć logi z działania funkcji
 
-#### Przykłady  
+## Przykłady  
 
 1. wylogowanie nazwy i typu pliku dodanego do koszyka S3, trywialny przypadek użycia, trochę lepszy hello world:
 
